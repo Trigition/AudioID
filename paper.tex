@@ -1,0 +1,295 @@
+\documentclass{article}
+\begin{document}
+
+
+
+\author{Jonathan Brandt, Skyler Manzanares, William Fong}
+\date{April 2, 2015}
+\title{Programming Assignment 2}
+
+\maketitle
+
+%Feel free to remove the 'description' text i placed (e.g. "Our hopfield network was terrific! Type stuff here")
+\section{Overview}
+
+\section{Hopfield Autoassociative Memory Network}
+The HAM network we constructed worked by creating large symmetric weight-matrices from image centroids (see Image Encoding subsection) to classify input vectors. The network is feed-back, meaning it feeds the resultant output vector back into itself as input until the network no longer exhibits any change on the vector. 
+
+We noticed that our HAM, while moving the input vector much closer to the proper centroid vector, was not able to make concrete classifications. Because this is the realm of soft computing, we decided the return the classificaton that was closest to the convergent vector. To decide which centroid was closest, we actually plugged the final resultant vector from the HAM into our Hamming/MAX network. This allowed us to make the short jump to the nearest centroid.
+
+\subsection{Image Encoding}
+Images were first converted from rgb to grayscale, and then run through a threshold function to polarize the images. These images were then fed into a function that took the average of each pixel value across all input images and returned the resulting centroid.
+
+This same encoding and centroid-generating technique was used in all other networks except the LVQ with only slight modifications.
+
+Images, when being polarized, were scaled down to a universal size of 64 x 48. This meant our centroids were also 64 x 48 matrices as well.
+
+\subsection{Performance}
+The HAM network worked very well for classifying Animals and sea-craft, but rather poorly for airplanes.  80\% of dogs were classified correctly along with every giraffe and all but one elephant.  All submarines and all ships were also classified correctly, however, whales were pretty evenly classified as either a whale, submarine, or ship.  Airplanes however were not handled well at all.  Likely due to ambiguity in passenger airline encoding, all but one airplane image was classified as a passenger plane.  While this means that all passenger planes were correctly classified, no jet fighters were correct.  Nine of the ten biplanes were also classified as passenger craft, however the one shining nugget was the remaining biplane which was correctly classified as such.  It must have really looked like a biplane as it was the only aircraft that wasn't classified as a passenger airline.
+
+Animal Results:
+\begin{itemize}
+    \item Dog:
+    \begin{itemize}
+        \item 8 Correctly Classified
+        \item 2 Incorrectly Classified
+        \end{itemize}
+    \item Elephant:
+    \begin{itemize}
+        \item 9 Correctly Classified
+        \item 1 Incorrectly Classified
+        \end{itemize}
+   \item Giraffe:
+   \begin{itemize}
+        \item 9 Correctly Classified
+        \item 0 Correctly Classifed
+        \end{itemize}
+\end{itemize}
+Plane Results:
+\begin{itemize}
+    \item Biplane:
+    \begin{itemize}
+        \item 1 Correctly Classified
+        \item 9 Incorrectly Classified
+        \end{itemize}
+    \item Jet Results:
+    \begin{itemize}
+        \item 0 Correctly Classified
+        \item 10 Incorrectly Classified
+        \end{itemize}
+    \item Passenger Results:
+    \begin{itemize}
+        \item 7 Correctly Classified
+        \item 0 Incorrectly Classified
+        \end{itemize}
+\end{itemize}
+Marine Results:
+\begin{itemize}
+    \item Ships:
+    \begin{itemize}
+        \item 5 Correctly Classified
+        \item 0 Incorrectly Classified
+        \end{itemize}
+    \item Submarine Results:
+    \begin{itemize}
+        \item 8 Correctly Classified
+        \item 0 Incorrectly Classified
+        \end{itemize}
+    \item Whale Results:
+    \begin{itemize}
+        \item 3 Correctly Classified
+        \item 7 Incorrectly Classified
+        \end{itemize}
+\end{itemize}        
+
+\subsection{Sensitivity}
+The hopfield was incredibly resilient to noise. This was most likely due to the fact that it was a feed-back network, so noise was able to be gradually phased out. Because our method of creating centroids created noise in the centroids, the hopfield did pretty good in regards to eliminating the noise.
+
+When deciding on values for delta, we originally imagined a value of about .1 would be best. Upon testing, we found very quickly that much smaller delta values worked better, as the HAM was converging very quickly.
+
+\subsection{Comments}
+Surprisingly the HAM was the second easiest networks to implement. We found that the implementation of it ended up being suprisingly intuitive. Even though we were using large matrices, the 'training' time (creation of weight matrix) was incredibly small (small enough we didn't record it) and classification times were even faster.
+
+
+
+
+
+\section{Hamming-Max Network}
+The Hamming-Max was fairly straight forward to construct.  We first created the hammingnet portion which was given the input vector and weight matrix.  It computed the hamming distance of the input from each column vector prototype of the weight matrix, storing those values in an output vector, equal in width to the weight matrix.  We then constructed the Maxnet which was given the Hammingnet output as a parameter.  It subtracts an epsilon (which we specified as the smallest element in the hamming vector) from each element until a single zero value is found, declaring it the smallest hamming distance.  This index represents the prototype which is most similar to the input, suggesting the input must be of this classification.
+
+\subsection{Image Encoding}
+Deciding how to encode our images was a bit tricky.  We played with a few different ways of obtaining image outlines and decided for this network simply finding images already in outline form would be best.  We removed inner detail from these outlines and ran them through a program we wrote.  First, the images are resized so that they are all one standard size,  the images are then grayscaled and run through a threshhold function so that a clear outline of black on white is present.  To establish the prototypes for our weight matrix, we added the values of each representative image matrix to eachother, then averaged the values and processed the result as before.  We adjusted our threshhold function to maintain clarity.  We found that visually, too small a size diminshed image definition, while too large was time and resource intensive and lacked definitive shape for the prototype matrix.
+
+\subsection{Performance}
+The Hamming/MAX did an excellent job when classifying animals. Both the aquatic classes and the planes had classifications that were completely incorrect, and another that was completely correct. We attribute this half-sided success to the images we selected for testing and for centroid-generation; the animals were distinct enough that we could tell the difference between the centroids when viewing them. The planes were a mess of lines due to poor image selection. The ships had very sporatic images used to train, and the resultant centroid was a mess. 
+\subsection{Sensitivity}
+This network was very sensitive to noise. Because it was feed-forward and used hamming distance between vectors, the most important thing was literally how many pixels matched up. Because of this, noise was very detrimental to classification accuracy.
+
+\subsection{Comments}
+We constructed out Hamming/MAX layer as per instructions of Lab 2. This led us to become extremely confused, as we weren't using a neural network but the linear-algebra equivalent. We didn't really use neurons. We just used applied linear algebra. Regardless, we went forward with the matrix-only implementation and were pretty pleased with the results. 
+
+By far the Hamming/Max was easiest for us to break down and implement.
+
+
+
+\section{Bidirection Associative Memory (BAM)}
+
+\subsection{Encoding}
+\subsubsection{Images}
+All images being imported into BAM are required to be in a JPG format. These
+images are then imported, resized into a standard format, and then polarized.
+Each polarized image is then translated into a single dimensional vector.
+Each 'class' of images are grouped together column wise to create a centroid
+matrix.
+
+\subsubsection{Classifications}
+The classifications used by BAM were encoded as orthogoal vectors of length 6.
+Each class 'supersection' had a total of 3 classes. The animal supersection
+includes Dogs, Elephants, and Giraffes. The Plane supersection includes Biplanes,
+Jets, and Airbuses. Finally the Marine supersection includes Ships, Submarines,
+and Whales. Each supersection is treated separately. The encodings for Animals
+are used again in Planes and Marines. This was to make the classification
+encodings as simple yet distant as possible.
+\subsection{Performance}
+The Bidirectional Associative Memory implementation performed rather poorly.
+Most of the associations were directed towards a specific centroid, resulting
+in at least 1 'class' performing extremely well. The results of our
+experiment are as follows.
+Animal Results:
+    Dog:
+        7 Correctly Classified
+        3 Incorrectly Classified
+    Elephant:
+        1 Correctly Classified
+        9 Incorrectly Classified
+    Giraffe:
+        0 Correctly Classified
+        9 Correctly Classifed
+Plane Results:
+    Biplane:
+        0 Correctly Classified
+        10 Incorrectly Classified
+    Jet Results:
+        5 Correctly Classified
+        5 Incorrectly Classified
+    Airbus Results:
+        0 Correctly Classified
+        7 Incorrectly Classified
+Marine Results:
+    Ships:
+        0 Correctly Classified
+        5 Incorrectly Classified
+    Submarine Results:
+        8 Correctly Classified
+        0 Incorrectly Classified
+    Whale Results:
+        3 Correctly Classified
+        7 Incorrectly Classified
+
+It seems that the BAM implementation attempted to classify nearly all animals
+as dogs. For planes the network had more diverse attempts to classify each
+object, although incorrectly. The marine results showed the most diverse and
+correct classifications. Although it does seem that BAM attempted to describe
+everything as either a submarine or a whale.
+
+\subsection{Sensitivity}
+Noise significantly disrupted the creation of the centroids in our Project.
+As a result we removed all excessive details and attempted to leave just
+the pure outlines. Of course this also may have made our centroid to being
+too sanitied and noisy images would be more likely to be misclassified.
+
+\subsection{Comments}
+BAM performed rather poorly. It appeared that BAM favored a single class when
+attempting to classify. However I believe this is a result of our encoding 
+scheme. If we had made our own outlines our network could have performed 
+better. Larger sizes could also give some accuracy in exchange for computational
+power. 
+
+\section{LVQ}
+Our LVQ network was created using the Neural Net toolkit for Matlab. We selected a hidden-layer size of [2 * n] to allow the target classes to be created with little room for error in the way of dying centroids based on the order of training. Making use of the built-in training of the toolkit, we simply constructed an input matrix consisting of all of our outlines for each group and made target vectors to use with them. 
+\subsection{Image Encoding}
+Images were encoded by simply importaing the RGB map, grayscaling, and converting the grayscale 0-255 to -1 and 1 based on a threshold (taken to be 127). These images were also resized to the global size of 64 x 48. The resultant images were those that were thrown into the input matrix and used to train the lvq network.
+
+\subsection{Performance}
+Our LVQ had some pretty good performance but also some poor performance.  When testing animals against eachother (dogs, elephants, and giraffes) the network maintained a fairly consistent classification.  It returned 21\% false negatives by misclassifying 4 dogs and 2 elephants, all as giraffes.  However the other 79\% of animals were correctly classified.  Aircraft were a little trickier.  With 66\% overall correct classification, most aircraft were classified as Jetfighters. All ten jet fighters were correctly classified and 9 passenger aircraft and biplanes misclassified.  Sea-fareing objects were not as great.  Not a single image was classified as a ship.  However, 70\% of whales were correctly classified and all of the submarines were correctly classified.
+Animal Results:
+\begin{itemize}
+    \item Dog:
+    \begin{itemize}
+        \item 6 Correctly Classified
+        \item 4 Incorrectly Classified
+        \end{itemize}
+    \item Elephant:
+    \begin{itemize}
+        \item 8 Correctly Classified
+        \item 2 Incorrectly Classified
+        \end{itemize}
+   \item Giraffe:
+   \begin{itemize}
+        \item 9 Correctly Classified
+        \item 0 Correctly Classifed
+        \end{itemize}
+\end{itemize}
+Plane Results:
+\begin{itemize}
+    \item Biplane:
+    \begin{itemize}
+        \item 7 Correctly Classified
+        \item 3 Incorrectly Classified
+        \end{itemize}
+    \item Jet Results:
+    \begin{itemize}
+        \item 10 Correctly Classified
+        \item 0 Incorrectly Classified
+        \end{itemize}
+    \item Passenger Results:
+    \begin{itemize}
+        \item 1 Correctly Classified
+        \item 6 Incorrectly Classified
+        \end{itemize}
+\end{itemize}
+Marine Results:
+\begin{itemize}
+    \item Ships:
+    \begin{itemize}
+        \item 0 Correctly Classified
+        \item 5 Incorrectly Classified
+        \end{itemize}
+    \item Submarine Results:
+    \begin{itemize}
+        \item 8 Correctly Classified
+        \item 0 Incorrectly Classified
+        \end{itemize}
+    \item Whale Results:
+    \begin{itemize}
+        \item 7 Correctly Classified
+        \item 3 Incorrectly Classified
+        \end{itemize}
+\end{itemize}        
+\subsection{Sensitivity}
+Being a feed-back network, the LVQ did fairly well to adapt to small amounts of noise. Because the centroids themselves had noise, the LVQ did the best overall out of all implementations. Being able to try over and over to get the actual centroid from a distorted image really helped aleviate a lot of the problems that came with the noise.
+
+\subsection{Comments}
+Because we used the neural net toolkit, constructing the lvq required the most work. This seems paradoxical, but the lack of easy-to-locate documentation on the neural net toolkit and the functions it provides set us back quite a ways. 
+ 
+\section{Member Assignments}
+All members were involved in some manner in all major area of the project. These
+major areas include the paper writup, the presentation creation, and the 
+programming. The specific assignements per group member are given below, but no
+single member handled an entire area of development.
+\subsection{Jonathan Brandt}
+\subsubsection{Programming}
+Jonathan's programming work was divided between implementation of the 
+Hamming/Max network and the creation of centroids for the networks based on a
+large number of sample inputs. He was completely responsible for creating the Hamming layer of the Hamming/MAX network, and worked in conjunction with the rest of the team when creating the centroids. He was responsible for testing the HAM and LVQ networks in whole and gathering the results.
+
+\subsubsection{Project Report}
+Jonathan was tasked with the Hamming/Max section. He also was in charge of reporting on the LVQ section and filling in result data.
+
+\subsubsection{Project Presentation}
+Jonathan updated the project with accurate testing results. 
+
+\subsection{Skyler Manzanares}
+
+\subsubsection{Programming}
+Skyler implemented the formatting of centroid images to the weight matrix to be fed into the Hamming/MAX network. He also did extensive work creating the functions that read in and format images. Skyler was also responsible for implementing
+the HAM network and the LVQ network.
+
+\subsubsection{Project Report}
+Skyler created the template for the project report and was in charge of the HAM 
+network section and the Member Assignment section.
+
+\subsubsection{Project Presentation}
+Skyler laid out the outline of the slides and filled in the description of all the neural networks. He also wrote the encoding section.
+
+\subsection{William Fong}
+\subsubsection{Programming}
+William worked to create the Max layer of the Hamming/Max network and coordinate 
+inputs and outputs of the various layers, summing all components together to create a working Hamming/Max network. William was also in charge of implementing the BAM network. He also was in charge of testing his BAM network creation.
+\subsubsection{Project Report}
+William was tasked to the BAM section and the LVQ analysis section.
+
+\subsubsection{Project Presentation}
+William's main contribution to the presentation was results.
+
+\end{document}

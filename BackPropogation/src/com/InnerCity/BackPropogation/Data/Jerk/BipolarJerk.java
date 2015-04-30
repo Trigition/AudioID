@@ -1,4 +1,4 @@
-package com.InnerCity.BackPropogation.Data;
+package com.InnerCity.BackPropogation.Data.Jerk;
 
 /**
  * Stores jerk information in a binary fashion.<br />

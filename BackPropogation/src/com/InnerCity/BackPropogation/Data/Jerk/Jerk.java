@@ -1,4 +1,4 @@
-package com.InnerCity.BackPropogation.Data;
+package com.InnerCity.BackPropogation.Data.Jerk;
 
 /**
  * Data structure holding summary information about the parsed song<br />
@@ -14,5 +14,7 @@ package com.InnerCity.BackPropogation.Data;
  * @see {@link com.InnerCity.BackPropogation.Driver}
  */
 public interface Jerk {
+	
+	
 	
 }

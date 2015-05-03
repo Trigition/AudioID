@@ -3,6 +3,15 @@ package com.InnerCity.BackPropogation;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Instances;
 
+/**
+ * Runs the program.
+ * But what do we want? What would be the input? That's a hard question.
+ * I think the simplist answer is to just provide a dir with the test and a dir with the training dadta
+ * and just parse it, gather up what it can, and then
+ * simply construct the network and do what we do with it?
+ * @author smanzana
+ *
+ */
 public class Driver {
 
 	public static void main(String[] args) {

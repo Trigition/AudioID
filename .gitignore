@@ -2,3 +2,5 @@
 .classpath
 .settings
 AudioFiles
+bin/
+AudioProcessing/frames/*

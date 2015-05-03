@@ -5,7 +5,7 @@ import struct
 import matplotlib.pyplot as plt
 import numpy as np
 
-filename = 'test.wav'
+filename = './AudioFiles/New Avengers.wav'
 
 sound_file = wave.open(filename)
 channels = sound_file.getnchannels()
@@ -22,7 +22,7 @@ sound_file.close()
 # Convert Audio Signal to usable Data
 
 print "Unpacking Data"
-unpack_format = '%dh' % (n_frames * 2)
+unpack_format = '%dh' % (n_frames * channels)
 audio_data = struct.unpack(unpack_format, audio_signal)
 print "Data Unpacked"
 print "Transforming Audio Data to NP Array"
@@ -30,7 +30,7 @@ audio_data = np.array(audio_data, dtype='h')
 print "Performing RFFT Transform"
 fourier_trans = np.fft.rfft(audio_data)
 print "Performed RFFT Transform"
-fourier_trans.dump('RTTF_' + filename)
+fourier_trans.dump('RTTF_OUT.numpy')
 # Plot Audio Data
 """
 plt.figure(1)

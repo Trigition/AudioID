@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 __author__ = 'William'
 
-from audio_proc import Audio_Factory
+import numpy
+import matplotlib.pylab as plt
 
-test = Audio_Factory('New Avengers.wav', 24)
-test.fft_process_audio()
+transform = numpy.load('RTTF_OUT.numpy')
+print transform
+
+transforms_per_second = 30
+transform_spread = 1.0 / transforms_per_second
+
+plt.plot(transform)
+plt.show()

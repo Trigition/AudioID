@@ -1,7 +1,11 @@
 package com.InnerCity.BackPropogation;
 
-import weka.classifiers.functions.MultilayerPerceptron;
+import java.io.File;
+import java.io.IOException;
+
+import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.converters.CSVLoader;
 
 /**
  * Runs the program.
@@ -12,12 +16,70 @@ import weka.core.Instances;
  * @author smanzana
  *
  */
-public class Driver {
+public final class Driver {
 
 	public static void main(String[] args) {
 		
+		if (args.length == 0) {
+			printUsage();
+			return;
+		}
+		
+		File inFile = new File(args[0]);
+		
+		if (!inFile.exists() || inFile.isDirectory()) {
+			System.out.println("Error locating file or invalid file type: " + inFile.getAbsolutePath());
+			printUsage();
+			return;
+		}
+		
+		CSVLoader input = new CSVLoader();
+//		Instances structure = null, instances = new Instances(structure);
+//		
+//		try {
+//			input.setFile(inFile);
+//			structure = input.getStructure();
+//			System.out.println(structure);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return;
+//		}
+//		
+//		Instance ins;
+//		
+//		while(true) {
+//			try {
+//				ins = input.getNextInstance(structure);
+//				instances.add(ins);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//				return;
+//			}
+//			
+//			
+//		}
+		
+		Instances instances = null;
+		try {
+			input.setFile(inFile);
+			String[] u = {"-H"};
+			input.setOptions(u);
+			instances = input.getDataSet();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(instances);
 		
 		
+		
+	}
+	
+	public static void printUsage() {
+		System.out.println("Usage: java -jar [jarname] [filename]");
 	}
 
 }

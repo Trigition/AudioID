@@ -58,6 +58,16 @@ public class BipolarJerk implements Jerk {
 		}
 	}
 	
+	public BipolarJerk(boolean[] dataArray) {
+		this.size = dataArray.length;
+		
+		this.rangeArray = new char[size];
+		
+		for (int i = 0; i < size; i++) {
+			rangeArray[i] = (char) (dataArray[i] ? 1 : -1);
+		}
+	}
+	
 	public Instance asInstance() {
 		if (rangeArray == null || size == 0) {
 			return null;

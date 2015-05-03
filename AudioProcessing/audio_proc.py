@@ -63,7 +63,7 @@ class Audio_Factory():
             return 0 #Frequency is outside of bounds
         if frequency > (self.sample_rate / 2 - self.get_bandwidth() / 2):
             return self.fourier_width_index - 1
-        
+
         fraction = float(frequency) / float(self.sample_rate)
         index = round(self.fourier_width_index * fraction)
         return index

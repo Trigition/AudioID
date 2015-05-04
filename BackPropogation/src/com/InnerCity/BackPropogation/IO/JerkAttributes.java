@@ -16,6 +16,10 @@ public final class JerkAttributes{
 			this.index = index;
 		}
 		
+		public int getIndex() {
+			return index;
+		}
+		
 		public static Genre fromIndex(int index) {
 			switch (index) {
 			case 1:
@@ -48,9 +52,9 @@ public final class JerkAttributes{
 			
 			//do some sneaky genre stuff
 			FastVector genreVector = new FastVector();
-			genreVector.addElement("Reggae");
-			genreVector.addElement("Classical");
-			genreVector.addElement("Dubstep");
+			genreVector.addElement(Genre.Reggae.getIndex());
+			genreVector.addElement(Genre.Classical.getIndex());
+			genreVector.addElement(Genre.Dubstep.getIndex());
 			
 			attr = new Attribute("Genre", genreVector);
 			attributeVector.addElement(attr);

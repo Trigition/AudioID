@@ -1,5 +1,7 @@
 package com.InnerCity.BackPropogation.Data.Jerk;
 
+import weka.core.Instance;
+
 /**
  * Data structure holding summary information about the parsed song<br />
  * <p>
@@ -15,6 +17,6 @@ package com.InnerCity.BackPropogation.Data.Jerk;
  */
 public interface Jerk {
 	
-	
+	public Instance asInstance();
 	
 }

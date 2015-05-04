@@ -1,90 +1,45 @@
 #!/usr/bin/env python
 
+import wave
+import struct
+import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import pyplot as plt
-import scipy.io.wavfile as wav
-from numpy.lib import stride_tricks
 
-#This is a quick implemntation of showing spectrum analysis
-#Source: http://www.frank-zalkow.de/en/code-snippets/create-audio-spectrograms-with-python.html
+filename = './AudioFiles/New Avengers.wav'
 
+sound_file = wave.open(filename)
+channels = sound_file.getnchannels()
+audio_width = sound_file.getsampwidth()
+n_frames = sound_file.getnframes()
+frame_rate = sound_file.getframerate()
 
-""" short time fourier transform of audio signal """
-def stft(sig, frameSize, overlapFac=0.5, window=np.hanning):
-    win = window(frameSize)
-    hopSize = int(frameSize - np.floor(overlapFac * frameSize))
+# Read in Audio Signal and close file
 
-    # zeros at beginning (thus center of 1st window should be for sample nr. 0)
-    samples = np.append(np.zeros(np.floor(frameSize/2.0)), sig)
-    # cols for windowing
-    cols = np.ceil((len(samples) - frameSize) / float(hopSize)) + 1
-    # zeros at end (thus samples can be fully covered by frames)
-    samples = np.append(samples, np.zeros(frameSize))
-    # print "Samples:\n", samples
-    frames = stride_tricks.as_strided(samples, shape=(cols, frameSize), strides=(samples.strides[0]*hopSize, samples.strides[0])).copy()
-    print "Frames:\n", frames
-    frames *= win
-    print "Frames:\n", frames
-    return np.fft.rfft(frames)
+duration = n_frames / frame_rate
+audio_signal = sound_file.readframes(n_frames)
+sound_file.close()
 
-""" scale frequency axis logarithmically """
-def logscale_spec(spec, sr=44100, factor=20.):
-    timebins, freqbins = np.shape(spec)
+# Convert Audio Signal to usable Data
 
-    scale = np.linspace(0, 1, freqbins) ** factor
-    scale *= (freqbins-1)/max(scale)
-    scale = np.unique(np.round(scale))
-
-    # create spectrogram with new freq bins
-    newspec = np.complex128(np.zeros([timebins, len(scale)]))
-    for i in range(0, len(scale)):
-        if i == len(scale)-1:
-            newspec[:,i] = np.sum(spec[:,scale[i]:], axis=1)
-        else:
-            newspec[:,i] = np.sum(spec[:,scale[i]:scale[i+1]], axis=1)
-
-    # list center freq of bins
-    allfreqs = np.abs(np.fft.fftfreq(freqbins*2, 1./sr)[:freqbins+1])
-    freqs = []
-    for i in range(0, len(scale)):
-        if i == len(scale)-1:
-            freqs += [np.mean(allfreqs[scale[i]:])]
-        else:
-            freqs += [np.mean(allfreqs[scale[i]:scale[i+1]])]
-
-    return newspec, freqs
-
-""" plot spectrogram"""
-def plotstft(audiopath, binsize=2**10, plotpath=None, colormap="jet"):
-    samplerate, samples = wav.read(audiopath)
-    print "Sample Rate:", samplerate
-    print "Samples:\n", samples
-    s = stft(samples, binsize)
-
-    sshow, freq = logscale_spec(s, factor=1.0, sr=samplerate)
-    ims = 20.*np.log10(np.abs(sshow)/10e-6) # amplitude to decibel
-
-    timebins, freqbins = np.shape(ims)
-
-    plt.figure(figsize=(15, 7.5))
-    plt.imshow(np.transpose(ims), origin="lower", aspect="auto", cmap=colormap, interpolation="none")
-    plt.colorbar()
-
-    plt.xlabel("time (s)")
-    plt.ylabel("frequency (hz)")
-    plt.xlim([0, timebins-1])
-    plt.ylim([0, freqbins])
-
-    xlocs = np.float32(np.linspace(0, timebins-1, 5))
-    plt.xticks(xlocs, ["%.02f" % l for l in ((xlocs*len(samples)/timebins)+(0.5*binsize))/samplerate])
-    ylocs = np.int16(np.round(np.linspace(0, freqbins-1, 10)))
-    plt.yticks(ylocs, ["%.02f" % freq[i] for i in ylocs])
-
-    if plotpath:
-        plt.savefig(plotpath, bbox_inches="tight")
-    else:
-        plt.show()
-
-    plt.clf()
-
-plotstft("test.wav")
+print "Unpacking Data"
+unpack_format = '%dh' % (n_frames * channels)
+audio_data = struct.unpack(unpack_format, audio_signal)
+print "Data Unpacked"
+print "Transforming Audio Data to NP Array"
+audio_data = np.array(audio_data, dtype='h')
+print "Performing RFFT Transform"
+fourier_trans = np.fft.rfft(audio_data)
+print "Performed RFFT Transform"
+fourier_trans.dump('RTTF_OUT.numpy')
+# Plot Audio Data
+"""
+plt.figure(1)
+plt.title('Yolo')
+plt.plot(raw_data)
+plt.show()"""
+# Plot FFT Data
+"""
+plt.figure(1)
+plt.title('FFT')
+plt.plot(fourier_trans)
+plt.show()"""

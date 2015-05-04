@@ -89,17 +89,25 @@ public final class CSVParser {
 		for (int i = 0; i < rows.size(); i++) {
 			Instance inst = new SparseInstance(bitLength + 1);
 			FastVector row = (FastVector) rows.elementAt(i);
+			int startIndex = 0; //for keeping track of if the data starts at pos 0 or pos 1
 			
 			System.out.println("First Data: " + (String) row.elementAt(0));
-			inst.setValue( (Attribute) attributes.elementAt(0), (String) row.elementAt(0));
 			
-			for (int j = 1; j < row.size() - 1; j++) {
+			String firstKey = (String) row.elementAt(0);
+			if (firstKey.contains("C") || firstKey.contains("R") || firstKey.contains("D")) {
+				//it's the class!
+				startIndex = 1;
+				//set this to be our class value
+				inst.setValue( (Attribute) attributes.elementAt(0), (String) row.elementAt(0));
+			}
+			
+			for (int j = startIndex; j < row.size() - (startIndex); j++) {
 				String o = (String) row.elementAt(j);
 				
-				System.out.println("Attribute: " + (Attribute) attributes.elementAt(j));
+				System.out.println("Attribute: " + (Attribute) attributes.elementAt(j + (1 - startIndex)));
 				System.out.println("data: " + o);
 				
-				inst.setValue((Attribute) attributes.elementAt(j), Double.parseDouble(o));
+				inst.setValue((Attribute) attributes.elementAt(j + (1 - startIndex)), Double.parseDouble(o));
 			}
 
 			instances.add(inst);
@@ -109,6 +117,8 @@ public final class CSVParser {
 		}
 		
 		scanner.close();
+		
+		instances.setClass((Attribute) attributes.elementAt(0));
 		
 		return instances;
 	}

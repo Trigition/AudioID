@@ -130,11 +130,10 @@ public final class Driver {
 				continue;
 			}
 			
-			testInst = testInstances.firstInstance();
-			testInst.setClassMissing();
+			//testInstances = testInstances.firstInstance();
 			
 			try {
-				System.out.println(n.classifyInstance(testInst));
+				System.out.println(n.classifyInstance(testInstances.firstInstance()));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

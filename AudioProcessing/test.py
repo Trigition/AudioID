@@ -1,45 +1,52 @@
 #!/usr/bin/env python
 
-import wave
-import struct
-import matplotlib.pyplot as plt
 import numpy as np
+import struct
+import wave
+import os
+import matplotlib.pylab as plt
+import glob
+from math import log10
 
-filename = './AudioFiles/New Avengers.wav'
+genres = ['Classical', 'Dub-a-Wub Step', 'Reggae']
 
-sound_file = wave.open(filename)
-channels = sound_file.getnchannels()
-audio_width = sound_file.getsampwidth()
-n_frames = sound_file.getnframes()
-frame_rate = sound_file.getframerate()
+for genre in genres:
+    directory = os.chdir('./AudioSamples/' + genre + '/')
+    sample_files = glob.glob('*.wav')
+    print "Found Files: ", sample_files
 
-# Read in Audio Signal and close file
+    centroid = []
+    for sample in sample_files:
+        print "Processing file:", sample
+        audio_file = wave.open(sample)
+        samples_resolution = audio_file.getframerate()
+        number_samples = audio_file.getnframes() / 100
+        duration = float(number_samples) / float(samples_resolution)
 
-duration = n_frames / frame_rate
-audio_signal = sound_file.readframes(n_frames)
-sound_file.close()
+        print samples_resolution
+        print number_samples
+        print duration
 
-# Convert Audio Signal to usable Data
+        sound_data = audio_file.readframes(number_samples)
+        unpack_format = '%dh' % (number_samples * audio_file.getnchannels())
+        sound_data = struct.unpack(unpack_format, sound_data)
 
-print "Unpacking Data"
-unpack_format = '%dh' % (n_frames * channels)
-audio_data = struct.unpack(unpack_format, audio_signal)
-print "Data Unpacked"
-print "Transforming Audio Data to NP Array"
-audio_data = np.array(audio_data, dtype='h')
-print "Performing RFFT Transform"
-fourier_trans = np.fft.rfft(audio_data)
-print "Performed RFFT Transform"
-fourier_trans.dump('RTTF_OUT.numpy')
-# Plot Audio Data
-"""
-plt.figure(1)
-plt.title('Yolo')
-plt.plot(raw_data)
-plt.show()"""
-# Plot FFT Data
-"""
-plt.figure(1)
-plt.title('FFT')
-plt.plot(fourier_trans)
-plt.show()"""
+        sound_data = np.fft.fft(sound_data)
+        half = len(sound_data) / 2
+        sound_data = sound_data[:half]
+        sound_data = abs(sound_data)
+        centroid.append(sound_data)
+    os.chdir('../../')
+    fileout = open('../Centroids/' + genre + '.csv', 'w')
+    for row in centroid:
+        first = True
+        for entry in row:
+            print entry, int(entry)
+            if not first:
+                fileout.write(',')
+            first = False
+            fileout.write(str(int(entry)))
+        fileout.write('\n')
+    fileout.close()
+    # plt.plot(sound_data)
+    # plt.show()

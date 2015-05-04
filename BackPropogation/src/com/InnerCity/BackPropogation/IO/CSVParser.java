@@ -50,7 +50,7 @@ public final class CSVParser {
 			//or assign the length of columns if this is the first one
 			if (bitLength == -1) {
 				//first line we've got, so record the length
-				bitLength = bits.length - 2;
+				bitLength = bits.length - 1;
 				
 				//TODO COUPLING OMG GET IT OUT OMG WHUT
 				if (bitLength <= 0) {
@@ -60,7 +60,7 @@ public final class CSVParser {
 				}
 			} else {
 				//else this is not the first one, so we want to check and make sure it's the proper length
-				if (bitLength != bits.length - 2) {
+				if (bitLength != bits.length - 1) {
 					System.out.println("Mismatched length of rows in input file!");
 					scanner.close();
 					return null;
@@ -73,7 +73,7 @@ public final class CSVParser {
 			jerk.addElement(bits[1]);
 			
 			for (int i = 0; i < bitLength; i++) {
-				jerk.addElement(bits[i + 2]);
+				jerk.addElement(bits[i + 1]);
 			}
 			
 			rows.addElement(jerk);
@@ -87,16 +87,19 @@ public final class CSVParser {
 		Instances instances = new Instances("Jerks", attributes, rows.size());
 		
 		for (int i = 0; i < rows.size(); i++) {
-			Instance inst = new SparseInstance(bitLength + 2);
+			Instance inst = new SparseInstance(bitLength + 1);
 			FastVector row = (FastVector) rows.elementAt(i);
 			
-			for (int j = 0; j < row.size(); j++) {
+			System.out.println("First Data: " + (String) row.elementAt(0));
+			inst.setValue( (Attribute) attributes.elementAt(0), (String) row.elementAt(0));
+			
+			for (int j = 1; j < row.size() - 1; j++) {
 				String o = (String) row.elementAt(j);
 				
 				System.out.println("Attribute: " + (Attribute) attributes.elementAt(j));
 				System.out.println("data: " + o);
 				
-				inst.setValue((Attribute) attributes.elementAt(j), o);
+				inst.setValue((Attribute) attributes.elementAt(j), Double.parseDouble(o));
 			}
 
 			instances.add(inst);

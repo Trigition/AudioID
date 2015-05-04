@@ -24,7 +24,7 @@ public final class JerkAttributes{
 			
 			//do some sneaky genre stuff
 			FastVector genreVector = new FastVector();
-			genreVector.addElement("Rock");
+			genreVector.addElement("Reggae");
 			genreVector.addElement("Classical");
 			genreVector.addElement("Dubstep");
 			

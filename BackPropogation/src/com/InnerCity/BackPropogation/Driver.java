@@ -36,7 +36,7 @@ public final class Driver {
 		
 		if (args.length == 0) {
 			System.out.println("Welcome. How are you? Great? That's great!");
-			System.out.println("Please enter the name of the file to load TESTING vectors from.");
+			System.out.println("Please enter the name of the file to load TRAINING vectors from.");
 			System.out.println("This file should be a .csv and have a header row");
 			System.out.print("Training Filename:  ");
 			

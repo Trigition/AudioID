@@ -6,9 +6,9 @@ import weka.core.FastVector;
 public final class JerkAttributes{
 	
 	public static enum Genre {
-		Reggae(1),
-		Classical(2),
-		Dubstep(3);
+		Reggae(101),
+		Classical(102),
+		Dubstep(103);
 		
 		private int index;
 		

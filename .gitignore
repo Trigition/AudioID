@@ -4,3 +4,6 @@
 AudioFiles
 bin/
 AudioProcessing/frames/*
+AudioProcessing/AudioSamples/*
+*.wav
+*.mp3

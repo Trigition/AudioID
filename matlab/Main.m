@@ -1,3 +1,5 @@
+%should be replaced by Mainxx.m (i believe -parmaJon)
+
 function output= Main( test_vector )
 %Our Main Function. Yaaay
     %These are the directory paths to our encodings

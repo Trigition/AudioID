@@ -7,15 +7,16 @@ fi
 
 wd=`pwd`
 exten=".arff"
-output=$wd\formattedJerks
+output=$wd/formattedJerks
 
 if [ ! -z "$2" ]; then
 	#this means we have a second parameter
 	#which means we have a different bin than normal
-	echo Changing output directory to $2
-	output=$2
+	echo Changing output directory to $wd/$2
+	output=$wd/$2
 fi
 
+echo $wd
 cd $1
 
 for f in ./*
@@ -26,6 +27,6 @@ do
 		continue
 	fi
 	
-	java -jar $wd/FormatConversion.jar $f $f$exten
+	java -jar $wd/FormatConversion.jar $f $output/$f$exten
 
 done

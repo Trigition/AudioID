@@ -20,30 +20,47 @@ function output = HamNet(centroidMatrix, inputVector, delta)
     sens = 25;
     index = 1;
     oldIn = inputVector;
-    while (d > delta)
+    superOld = inputVector;
+    inbounds = false;
+    while (inbounds == false)
        %to avoid seeming-deadlock, we report that the program is still
        %iterating. To avoid spamming, we increase iterations between
        %reports by doubling the distance
        if (index == sens)
           fprintf('Beginning iteration %d. Previous Delta: %d\n', index, d);
           sens = sens * 2;
+	  oldIn'
        end
        
        %fetch the current iteration's classification
-       classification = weightMatrix * oldIn;
+       %classification = weightMatrix * oldIn
        
        %apply theshhold function to classification
-       classification = threshhold(classification);
+       %classification = threshhold(classification);
        
-       %find average absolute distance between iterations
-       d = 0;
-       for i=1:h
-            %sum all differences up
-            d = d + (abs(oldIn(i, 1) - classification(i, 1)));
-       end
-       d = d / h;
+       
+	%make sure all values are within bounds
+       inbounds = true;
+
+	%randomize update order
+	order = randperm(h);
+	for (i=order)
+		classification = weightMatrix * oldIn;
+		oldIn(i,1) = classification(i,1);
+        end
+	
+	oldIn = threshhold(oldIn);
+	
+	for (i=1:h)
+		if (abs(oldIn(i,1) - superOld(i,1)) > delta)
+			inbounds = false;
+		end 
+	end 
+
+       superOld = oldIn;
        index = index + 1;
-       oldIn = classification;
+	%oldIn = threshhold(oldIn);
+       %oldIn(i, 1) = classification(i, 1);
     end
     
     %we have the finished vector classification. Now which is it closest
@@ -51,6 +68,7 @@ function output = HamNet(centroidMatrix, inputVector, delta)
     %We use a hamming function here even though it's not conventionally
     %part of the network because this is soft computing and classification
     %can be iffy
+	oldIn'
     hammingVect = hamming(oldIn', centroidMatrix)
     pause;
     
@@ -65,7 +83,9 @@ function output=threshhold(InputMatrix)
     for i=1:w
     for j=1:h
        if (InputMatrix(i,j) < 0)
-          output(i,j) = 0;
+          output(i,j) = -1;
+       elseif (InputMatrix(i,j) == 0)
+	  output(i,j) = 0;
        else
            output(i,j) = 1;
        end

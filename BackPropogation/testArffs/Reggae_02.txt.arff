@@ -1,0 +1,20 @@
+@relation Reggae_02.txt
+
+@attribute genre {Reggae, Classical, Dubstep}
+@attribute bit_0 numeric
+@attribute bit_1 numeric
+@attribute bit_2 numeric
+@attribute bit_3 numeric
+@attribute bit_4 numeric
+@attribute bit_5 numeric
+@attribute bit_6 numeric
+@attribute bit_7 numeric
+@attribute bit_8 numeric
+@attribute bit_9 numeric
+@attribute bit_10 numeric
+@attribute bit_11 numeric
+
+
+@data
+?, -0.300180804681,-0.149106350863,-0.0936459505611,0.289460248309,0.252264986739,0.699819195319,-0.0188383813887,0.180768243774,-0.0590750426286,-0.265058756828,-0.296418669218,-0.239988717973
+

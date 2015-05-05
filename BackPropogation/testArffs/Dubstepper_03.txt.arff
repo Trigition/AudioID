@@ -1,0 +1,20 @@
+@relation Dubstepper_03.txt
+
+@attribute genre {Reggae, Classical, Dubstep}
+@attribute bit_0 numeric
+@attribute bit_1 numeric
+@attribute bit_2 numeric
+@attribute bit_3 numeric
+@attribute bit_4 numeric
+@attribute bit_5 numeric
+@attribute bit_6 numeric
+@attribute bit_7 numeric
+@attribute bit_8 numeric
+@attribute bit_9 numeric
+@attribute bit_10 numeric
+@attribute bit_11 numeric
+
+
+@data
+?, -0.216528354943,-0.086687009385,0.783471645057,0.560345515418,0.155770906304,-0.0643631817555,-0.136064781088,-0.175967693614,-0.19802835347,-0.206701283228,-0.211337270035,-0.203910139258
+

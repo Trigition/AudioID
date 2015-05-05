@@ -8,10 +8,10 @@ import matplotlib.pylab as plt
 import glob
 from math import log10
 
-genres = ['Classical', 'Dub-a-Wub Step', 'Reggae']
+genres = ['Classical', 'Dub-a-Wub\ Step', 'Reggae']
 
 for genre in genres:
-    directory = os.chdir('./AudioSamples/' + genre + '/')
+    os.chdir('./AudioSamples/' + genre + '/')
     sample_files = glob.glob('*.wav')
     print "Found Files: ", sample_files
 
@@ -19,8 +19,8 @@ for genre in genres:
     for sample in sample_files:
         print "Processing file:", sample
         audio_file = wave.open(sample)
-        samples_resolution = audio_file.getframerate()
-        number_samples = audio_file.getnframes() / 100
+        samples_resolution = audio_file.getframerate() / 10
+        number_samples = audio_file.getnframes()
         duration = float(number_samples) / float(samples_resolution)
 
         print samples_resolution
@@ -41,7 +41,7 @@ for genre in genres:
     for row in centroid:
         first = True
         for entry in row:
-            print entry, int(entry)
+            # print entry, int(entry)
             if not first:
                 fileout.write(',')
             first = False

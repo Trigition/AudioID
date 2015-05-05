@@ -1,0 +1,20 @@
+@relation __Classical__Tchaikovsky_-_1812_Overture_full_with_cannons_.txt
+
+@attribute genre {Reggae, Classical, Dubstep}
+@attribute bit_0 numeric
+@attribute bit_1 numeric
+@attribute bit_2 numeric
+@attribute bit_3 numeric
+@attribute bit_4 numeric
+@attribute bit_5 numeric
+@attribute bit_6 numeric
+@attribute bit_7 numeric
+@attribute bit_8 numeric
+@attribute bit_9 numeric
+@attribute bit_10 numeric
+@attribute bit_11 numeric
+
+
+@data
+?, -0.342014351248,-0.070136736309,-0.0957455123252,0.44857876999,0.657985648752,0.52153352499,0.2848967442,-0.191888227617,-0.26173074293,-0.330964347502,-0.340473809848,-0.280040960153
+

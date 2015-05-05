@@ -1,0 +1,20 @@
+@relation __Classical__Ennio_Morricone_The_Ecstasy_of_Gold.txt
+
+@attribute genre {Reggae, Classical, Dubstep}
+@attribute bit_0 numeric
+@attribute bit_1 numeric
+@attribute bit_2 numeric
+@attribute bit_3 numeric
+@attribute bit_4 numeric
+@attribute bit_5 numeric
+@attribute bit_6 numeric
+@attribute bit_7 numeric
+@attribute bit_8 numeric
+@attribute bit_9 numeric
+@attribute bit_10 numeric
+@attribute bit_11 numeric
+
+
+@data
+?, -0.242414433779,-0.0700369051791,-0.00735237617541,0.144249668555,0.100278879152,0.757585566221,0.21787884663,-0.0974141969375,-0.175144534853,-0.217811824563,-0.2306572062,-0.17916148287
+

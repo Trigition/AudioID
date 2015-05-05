@@ -37,7 +37,7 @@ for genre in genres:
         sound_data = abs(sound_data)
         centroid.append(sound_data)
     os.chdir('../../')
-    fileout = open('../Centroids/' + genre + '.csv', 'w')
+    fileout = open('../Jerks/' + genre + '.csv', 'w')
     for row in centroid:
         first = True
         for entry in row:

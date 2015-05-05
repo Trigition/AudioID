@@ -7,13 +7,13 @@ import struct
 import sys
 import numpy as np
 
-
 # Fancy Terminal Updates
 def update_progress(progress):
     sys.stdout.write('\r[{0}] {1}%'.format('#'*(progress/10), progress))
     sys.stdout.flush()
 
 filename = sys.argv[1]
+output_file = sys.argv[2]
 
 wave_file = wave.open(filename, 'r')
 data_size = wave_file.getnframes()
@@ -40,10 +40,9 @@ fourier_spread = 1.0/fouriers_per_second
 fourier_width = fourier_spread
 fourier_width_index = fourier_width * float(sample_rate)
 
-if len(sys.argv) < 3:
-    length_to_process = int(duration)-1
-else:
-    length_to_process = float(sys.argv[2])
+
+length_to_process = int(duration)-1
+
 
 
 total_transforms = int(round(length_to_process * fouriers_per_second))
@@ -74,7 +73,7 @@ def freqToIndex(f):
     if f < getBandWidth()/2:
         return 0
     if f > (sample_rate / 2) - (getBandWidth() / 2):
-        return sample_size -1
+        return sample_size - 1
     fraction = float(f) / float(sample_rate)
     index = round(sample_size * fraction)
     return index
@@ -120,21 +119,26 @@ for offset in range(0, total_transforms):
 
 print ''
 # centroid = [x / total_transforms for x in centroid]  # Average Centroid
-centroid_out = open('centroid.txt', 'w')
+centroid_out = open(output_file, 'w')
 c_number = len(all_average[0])
 centroid = []
 for i in range(0, c_number):
     centroid.append(sum(row[i] for row in all_average))
 
-"""for time_vector in all_average:
-    # print time_vector
-    centroid = [x + y for x, y in zip(centroid, time_vector)]
-"""
+centroid_avg = np.mean(centroid)
+centroid_max = np.max(centroid)
 first = True
+
 # print centroid
 for member in centroid:
     if not first:
         centroid_out.write(',')
     first = False
-    centroid_out.write(str(int(member)))
+    """if member > centroid_avg:
+        centroid_out.write('1')
+    elif member <= centroid_avg:
+        centroid_out.write('-1')"""
+    print_val = (member / centroid_max) - (centroid_avg / centroid_max)
+    centroid_out.write(str(print_val))
+
 centroid_out.close()

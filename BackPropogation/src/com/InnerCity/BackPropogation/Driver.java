@@ -83,7 +83,6 @@ public final class Driver {
 		MultilayerPerceptron n = new MultilayerPerceptron();
 		
 		System.out.print("Beginning training...");
-		System.out.println(trainInstances.attribute(1));
 		trainInstances.setClassIndex(0);
 		try {
 			n.buildClassifier(trainInstances);

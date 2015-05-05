@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.InnerCity.BackPropogation.IO.CSVParser;
+import com.InnerCity.BackPropogation.IO.JerkAttributes;
 
 import weka.classifiers.functions.MultilayerPerceptron;
+import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
@@ -133,7 +135,15 @@ public final class Driver {
 			//testInstances = testInstances.firstInstance();
 			
 			try {
-				System.out.println(n.classifyInstance(testInstances.firstInstance()));
+				int tmp = (int) testInstances.firstInstance().classValue();
+				System.out.println(testInstances.firstInstance().classAttribute().value(tmp) 
+						+ "   [" + tmp + "]");
+				double label = n.classifyInstance(testInstances.firstInstance());
+				String name = null;
+//				FastVector genres = (FastVector) JerkAttributes.getAttributes(0).elementAt(0);
+//				name = (String) genres.elementAt((int) label);
+				name = testInstances.firstInstance().classAttribute().value((int) label);
+				System.out.println(name + "  [" + label + "]");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

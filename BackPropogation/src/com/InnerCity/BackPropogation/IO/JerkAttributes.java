@@ -5,34 +5,6 @@ import weka.core.FastVector;
 
 public final class JerkAttributes{
 	
-	public static enum Genre {
-		Reggae(101),
-		Classical(102),
-		Dubstep(103);
-		
-		private int index;
-		
-		private Genre(int index) {
-			this.index = index;
-		}
-		
-		public int getIndex() {
-			return index;
-		}
-		
-		public static Genre fromIndex(int index) {
-			switch (index) {
-			case 1:
-				return Genre.Reggae;
-			case 2:
-				return Genre.Classical;
-			case 3:
-			default:
-				return Genre.Dubstep;
-			}
-		}
-	}
-	
 	
 	private static FastVector attributeVector;
 	
@@ -52,9 +24,9 @@ public final class JerkAttributes{
 			
 			//do some sneaky genre stuff
 			FastVector genreVector = new FastVector();
-			genreVector.addElement(Genre.Reggae.getIndex());
-			genreVector.addElement(Genre.Classical.getIndex());
-			genreVector.addElement(Genre.Dubstep.getIndex());
+			genreVector.addElement("Reggae");
+			genreVector.addElement("Classical");
+			genreVector.addElement("Dubstep");
 			
 			attr = new Attribute("Genre", genreVector);
 			attributeVector.addElement(attr);

@@ -1,0 +1,20 @@
+@relation __Dub-a-Wub-Step__Chrispy_-_Predator_Original_Mix_.txt
+
+@attribute genre {Reggae, Classical, Dubstep}
+@attribute bit_0 numeric
+@attribute bit_1 numeric
+@attribute bit_2 numeric
+@attribute bit_3 numeric
+@attribute bit_4 numeric
+@attribute bit_5 numeric
+@attribute bit_6 numeric
+@attribute bit_7 numeric
+@attribute bit_8 numeric
+@attribute bit_9 numeric
+@attribute bit_10 numeric
+@attribute bit_11 numeric
+
+
+@data
+?, -0.269798836473,0.22452209073,0.336126405542,0.730201163527,0.545951326232,-0.108688000711,-0.2073344523,-0.227733087129,-0.238133161118,-0.265188578895,-0.268718327824,-0.251206541581
+

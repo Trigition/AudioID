@@ -1,0 +1,20 @@
+@relation __Dub-a-Wub-Step__Purity_Ring_-_Fineshrine.txt
+
+@attribute genre {Reggae, Classical, Dubstep}
+@attribute bit_0 numeric
+@attribute bit_1 numeric
+@attribute bit_2 numeric
+@attribute bit_3 numeric
+@attribute bit_4 numeric
+@attribute bit_5 numeric
+@attribute bit_6 numeric
+@attribute bit_7 numeric
+@attribute bit_8 numeric
+@attribute bit_9 numeric
+@attribute bit_10 numeric
+@attribute bit_11 numeric
+
+
+@data
+?, -0.26178898394,-0.119251736301,0.73821101606,0.332527471121,0.0806435846178,0.126751062132,0.0521331251705,-0.0311492245834,-0.183639286335,-0.234878440023,-0.260238931802,-0.239319656118
+

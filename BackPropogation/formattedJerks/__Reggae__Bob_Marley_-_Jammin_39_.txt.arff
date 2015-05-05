@@ -1,0 +1,20 @@
+@relation __Reggae__Bob_Marley_-_Jammin_39_.txt
+
+@attribute genre {Reggae, Classical, Dubstep}
+@attribute bit_0 numeric
+@attribute bit_1 numeric
+@attribute bit_2 numeric
+@attribute bit_3 numeric
+@attribute bit_4 numeric
+@attribute bit_5 numeric
+@attribute bit_6 numeric
+@attribute bit_7 numeric
+@attribute bit_8 numeric
+@attribute bit_9 numeric
+@attribute bit_10 numeric
+@attribute bit_11 numeric
+
+
+@data
+?, -0.201687930781,-0.133041679182,-0.127470789502,0.655239737384,0.798312069219,0.116635011958,-0.14447273335,-0.177335974953,-0.193814936076,-0.199332862061,-0.200537489074,-0.192492423582
+

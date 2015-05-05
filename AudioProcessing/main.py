@@ -19,7 +19,7 @@ for genre in genres:
     # os.rename('centroid.txt', '../Jerks/' + genre + '.txt')
 
 """Generate Test Vectors"""
-"""
+
 print "\nGenerating Test Vectors"
 os.chdir('./AudioSamples/Audio_Tests/')
 list_of_files = glob.glob('*.wav')
@@ -27,7 +27,7 @@ os.chdir('../../')
 for sample in list_of_files:
     os.system('generate_centroid_vector.py ' + './AudioSamples/Audio_Tests/' + sample + ' ' +
     '../Tests/' + sample[:-3] + 'txt')
-"""
+
 
 """Generate Spectrogram Jerks"""
 """for genre in genres:

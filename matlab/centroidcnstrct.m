@@ -4,4 +4,5 @@
 function centroid = centroidcnstrct(v1, v2, v3, v4, v5)
     centroid = v1 + v2 + v3 + v4 + v5;
     centroid = centroid/5;
+    
 end

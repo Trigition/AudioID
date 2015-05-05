@@ -35,6 +35,7 @@ public final class CSVParser {
 		String line;
 		int bitLength = -1;
 		FastVector rows = new FastVector();
+		scanner.nextLine();
 		
 		while (scanner.hasNextLine()) {
 			//grab line, process it

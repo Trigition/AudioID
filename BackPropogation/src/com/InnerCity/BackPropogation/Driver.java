@@ -8,6 +8,7 @@ import com.InnerCity.BackPropogation.IO.CSVParser;
 import com.InnerCity.BackPropogation.IO.JerkAttributes;
 
 import weka.classifiers.functions.MultilayerPerceptron;
+import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -120,9 +121,26 @@ public final class Driver {
 			
 					
 			//go through and finally load up the dataset from the file
-			//CSVLoader load = new CSVLoader();
+			CSVLoader load = new CSVLoader();
+			
+			//load.setFile(inFile);
+			//load.getStructure();
+			
+			
+			load.setFile(testFile);
+			String[] options = {"-H"};
+			try {
+				load.setOptions(options);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			Instances testInstances;
-			testInstances = CSVParser.getInstances(testFile);
+			load.getStructure();
+			testInstances = load.getDataSet();
+			testInstances.setClassIndex(0);
+			testInstances.firstInstance().setClassMissing();
+			//testInstances = CSVParser.getInstances(testFile);
 			
 			if (testInstances.numInstances() > 1) {
 				System.out.println("Warning: Only the first jerk is taken from the passed file!");
@@ -136,13 +154,12 @@ public final class Driver {
 			
 			try {
 				int tmp = (int) testInstances.firstInstance().classValue();
-				System.out.println(testInstances.firstInstance().classAttribute().value(tmp) 
+				System.out.println(testInstances.firstInstance().classAttribute()
 						+ "   [" + tmp + "]");
 				double label = n.classifyInstance(testInstances.firstInstance());
 				String name = null;
-//				FastVector genres = (FastVector) JerkAttributes.getAttributes(0).elementAt(0);
-//				name = (String) genres.elementAt((int) label);
-				name = testInstances.firstInstance().classAttribute().value((int) label);
+				Attribute genres = (Attribute) JerkAttributes.getAttributes(0).elementAt(0);
+				name = genres.value((int) label);
 				System.out.println(name + "  [" + label + "]");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

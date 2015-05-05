@@ -1,6 +1,8 @@
 package com.InnerCity.BackPropogation;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -65,7 +67,9 @@ public final class Driver {
 		
 		System.out.print("Loading training vectors... ");
 		try {
-			trainInstances = CSVParser.getInstances(inFile);
+			//trainInstances = CSVParser.getInstances(inFile);
+			BufferedReader read = new BufferedReader(new FileReader(inFile));
+			trainInstances = new Instances(read);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,7 +84,7 @@ public final class Driver {
 		
 		System.out.print("Beginning training...");
 		System.out.println(trainInstances.attribute(1));
-		trainInstances.setClassIndex(1);
+		trainInstances.setClassIndex(0);
 		try {
 			n.buildClassifier(trainInstances);
 		} catch (Exception e1) {
@@ -121,25 +125,12 @@ public final class Driver {
 			
 					
 			//go through and finally load up the dataset from the file
-			CSVLoader load = new CSVLoader();
+			BufferedReader read = new BufferedReader(new FileReader(testFile));
 			
-			//load.setFile(inFile);
-			//load.getStructure();
-			
-			
-			load.setFile(testFile);
-			String[] options = {"-H"};
-			try {
-				load.setOptions(options);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			Instances testInstances;
-			load.getStructure();
-			testInstances = load.getDataSet();
+			testInstances = new Instances(read);
 			testInstances.setClassIndex(0);
-			testInstances.firstInstance().setClassMissing();
+			//testInstances.firstInstance().setClassMissing();
 			//testInstances = CSVParser.getInstances(testFile);
 			
 			if (testInstances.numInstances() > 1) {
@@ -153,14 +144,11 @@ public final class Driver {
 			//testInstances = testInstances.firstInstance();
 			
 			try {
-				int tmp = (int) testInstances.firstInstance().classValue();
-				System.out.println(testInstances.firstInstance().classAttribute()
-						+ "   [" + tmp + "]");
 				double label = n.classifyInstance(testInstances.firstInstance());
 				String name = null;
 				Attribute genres = (Attribute) JerkAttributes.getAttributes(0).elementAt(0);
 				name = genres.value((int) label);
-				System.out.println(name + "  [" + label + "]");
+				System.out.println("This appears to be: " + name);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

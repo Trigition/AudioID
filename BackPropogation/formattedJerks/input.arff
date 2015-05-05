@@ -1,0 +1,15 @@
+@relation input.lol
+
+@attribute genre {Reggae, Classical, Dubstep}
+@attribute bit_0 numeric
+@attribute bit_1 numeric
+@attribute bit_2 numeric
+@attribute bit_3 numeric
+@attribute bit_4 numeric
+
+
+@data
+Dubstep, 1, 0, 1, 1, 0
+Classical, 0, 0, 0, 0, 1
+Reggae, 0, 1, 0, 0, 0
+
